@@ -70,3 +70,14 @@ Needed for Lombok Project: turn on annotation processor - preference/compiler/an
 @NoArgsConstructor to replace no args constructor
 @Data to replace setter and getter, tostring and hashequal
 @NonNull for a certain property: this is required, automatically create a constructor that instantiates this object
+
+### Repositories
+after creating the domain objects, need a mechanism to get data in and out of our database
+we have hibernate under the hood and we're using Aughrim to map our objects
+establish Repository package, touch interface files for each entity, write in it:
+public interface LinkRepository extends JpaRepository<Link,Long> {
+}
+We don't need to implement the repository interface, spring does it at runtime
+
+### Entity Relationships (Mappings)
+Use JPA Mapping Annotations
