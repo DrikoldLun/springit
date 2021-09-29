@@ -81,3 +81,4 @@ We don't need to implement the repository interface, spring does it at runtime
 
 ### Entity Relationships (Mappings)
 Use JPA Mapping Annotations
+@OneToMany(mappedBy = "link") 1 link has many comments
