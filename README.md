@@ -81,4 +81,10 @@ We don't need to implement the repository interface, spring does it at runtime
 
 ### Entity Relationships (Mappings)
 Use JPA Mapping Annotations
-@OneToMany(mappedBy = "link") 1 link has many comments
+@OneToMany(mappedBy = "link") 1 link has many 
+
+### Auditing Aware
+some features: time for create and update, who create or update
+a bunch of classes needs to be auditable, we can create an abstract class called Auditable and make it a mappeed super class, just extend
+this class for those classes needing auditable features. This Auditable class doesn't not have a table, the auditable features are within 
+the domain object
