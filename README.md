@@ -67,8 +67,10 @@ Must use annotations to let Spring know the class we created are entities, use @
 ### 2.3 Project Lombok Refactor
 Refactor, right click package, select refactor and rename, it will automatically update the name of this package in all files
 Needed for Lombok Project: turn on annotation processor - preference/compiler/annotation processors/enable annotation processing
-@NoArgsConstructor to replace no args constructor
-@Data to replace setter and getter, tostring and hashequal
+@RequiredArgsConstructor
+@Getter @Setter
+@NoArgsConstructor
+above to replace constructor, getter and setter
 @NonNull for a certain property: this is required, automatically create a constructor that instantiates this object
 
 ### 2.4 Repositories
@@ -94,7 +96,37 @@ the domain object
 ### 3.1 Common Application Properties & H2 Database
 Data sourse: spring.datasource.[data-username/password...]
 Web console: link to H2 in-memory database
+
+connect to h2
 h2 datasource setting in application.properties:
 spring.datasource.url=jdbc:h2:mem:springit
 spring.datasource.username=sa
 spring.datasource.password=
+
+### 3.2 connect to Mysql
+spring.jpa.hibernate.ddl-auto=create
+spring.datasource.url=jdbc:mysql://localhost:3306/springit?allowPublicKeyRetrieval=true&useSSL=false
+spring.datasource.username=springit
+spring.datasource.password=
+in mysql workbench:
+add user, give privilege
+execute:
+use springit;
+select * from link/comment/vote
+
+### 3.3 Database Schema & Data
+turn on in application.properties
+spring.datasource.initialization-mode=always
+then add in resources: schema.sql for creating/dropping the db, data.sql for writting some data into the db
+
+### 3.4 Command line runner (interface)
+first method:
+2 CLRs, 1 for database initialization, the other for doing something else, all in com.lunz.springit
+use @Order(num) to schedule the order for these 2 CLRs
+
+second method (for this project):
+use bean in SpringitApplication
+
+### 3.5 explore repository
+define a method in repository just follows the query scheme
+e.g. Link findByTitle(String title) in LinkRepository
