@@ -59,19 +59,19 @@ Spring data is a large project containing tons of modules like support for JDBC,
 JPA is just the specification and by itself isn’t all that usefull. What you need is a JPA provider that implements the specification like
 Hibernate
 
-### Entities
+### 2.2 Entities
 Must use annotations to let Spring know the class we created are entities, use @Entity
 @ID annotation specifies the primary key of the entity
 @GeneratedValue annotation provides strategies for the generation of primary key values
 
-### Project Lombok Refactor
+### 2.3 Project Lombok Refactor
 Refactor, right click package, select refactor and rename, it will automatically update the name of this package in all files
 Needed for Lombok Project: turn on annotation processor - preference/compiler/annotation processors/enable annotation processing
 @NoArgsConstructor to replace no args constructor
 @Data to replace setter and getter, tostring and hashequal
 @NonNull for a certain property: this is required, automatically create a constructor that instantiates this object
 
-### Repositories
+### 2.4 Repositories
 after creating the domain objects, need a mechanism to get data in and out of our database
 we have hibernate under the hood and we're using Aughrim to map our objects
 establish Repository package, touch interface files for each entity, write in it:
@@ -79,12 +79,22 @@ public interface LinkRepository extends JpaRepository<Link,Long> {
 }
 We don't need to implement the repository interface, spring does it at runtime
 
-### Entity Relationships (Mappings)
+### 2.5 Entity Relationships (Mappings)
 Use JPA Mapping Annotations
 @OneToMany(mappedBy = "link") 1 link has many 
 
-### Auditing Aware
+### 2.6 Auditing Aware
 some features: time for create and update, who create or update
 a bunch of classes needs to be auditable, we can create an abstract class called Auditable and make it a mappeed super class, just extend
 this class for those classes needing auditable features. This Auditable class doesn't not have a table, the auditable features are within 
 the domain object
+
+## 3. Database Layer
+
+### 3.1 Common Application Properties & H2 Database
+Data sourse: spring.datasource.[data-username/password...]
+Web console: link to H2 in-memory database
+h2 datasource setting in application.properties:
+spring.datasource.url=jdbc:h2:mem:springit
+spring.datasource.username=sa
+spring.datasource.password=
