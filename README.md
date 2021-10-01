@@ -130,3 +130,17 @@ use bean in SpringitApplication
 ### 3.5 explore repository
 define a method in repository just follows the query scheme
 e.g. Link findByTitle(String title) in LinkRepository
+
+## 4. Spring MVC: Controller
+### 4.1 what's is controller
+handles HTTP request and mapping
+the controller package should be under the main folder
+use @Controller for match template html file in resources/templates
+use @RestController without a template
+@RequestMapping(urlpath) to map the http request to the method
+@GetMapping = @RequestMapping + GET
+
+### 4.2 Handler method
+pass data down to our view
+
+### 4.3 Link controller
