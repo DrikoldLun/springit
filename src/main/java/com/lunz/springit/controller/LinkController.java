@@ -2,7 +2,6 @@ package com.lunz.springit.controller;
 
 import com.lunz.springit.domain.Link;
 import com.lunz.springit.repository.LinkRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +14,6 @@ public class LinkController {
 
     private LinkRepository linkRepository;
 
-    @Autowired
     public LinkController(LinkRepository linkRepository) {
         this.linkRepository = linkRepository;
     }
