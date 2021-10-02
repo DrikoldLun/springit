@@ -142,5 +142,61 @@ use @RestController without a template
 
 ### 4.2 Handler method
 pass data down to our view
+@Controller
+public class HomeController {
+@GetMapping("/home_page") // the url for mapping
+public String home(Model model, HttpServletRequest request){
+model.addAttribute("title","Hello, Thymeleaf!");
+return "home"; // "home.html" template
+}
+}
 
 ### 4.3 Link controller
+
+
+## 5. Spring MVC: View
+### 5.1 Spring MVC: View (The User Interface)
+Welcome page
+Spring Boot serves static content from a directory called /static (or /public or /resources or /META-INF/resources) in the classpath
+it firstly looks for index.html in above static content, it's automatically used as the welcome page if found
+
+Custom Favicon
+favicon.ico in the configured static content
+website favicon.io for making favicons using png figure
+Note:!!!
+placing the figure: note the path shouldn't include special chars
+favicon.ico didn't work...
+
+### 5.2 Templates
+ViewResolver
+template engine: Thymeleaf
+
+use the data attribute for displaying dynamic features:
+display the title: <h1 data-th-text="${title}">Default Welcome Message</h1>
+
+### 5.3 Thymeleaf Layouts
+read the head from database, add them as model attributes and pass them down to the templates
+for most of the pages we have same header
+<title th:text="${title}">Springit - Spring Boot Reddit Clone</title> the default title when no title attribute passed from controller
+<head th:replace="~{layouts/main_layout :: head(title = ${pageTitle})}">, the pageTitle is passed down to the layout through attribute addition of "title" in linkController
+
+### 5.4 List Links (Home)
+save a bunch of links (title and url) to linkRepository in bootstrap/DatabaseLoader
+Pretty time - library for recording precice time
+in html, ${link.id} this helper method just call a link domain object
+
+comment,username -> Spring security
+
+### View Link
+if (link.isPresent()) {
+model.addAttribute("link",link.get());
+return "link/view";
+} else {
+return "redirect:/";
+}
+
+### 5.5 Submit Link
+2 handler method: one to show the page, one to handle the form submission
+validation: in the domain object class:
+@NotEmpty(message = "Please enter a url.")
+@URL(message = "Please enter a valid url.")
