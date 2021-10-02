@@ -200,3 +200,50 @@ return "redirect:/";
 validation: in the domain object class:
 @NotEmpty(message = "Please enter a url.")
 @URL(message = "Please enter a valid url.")
+
+## 6. Spring Security: Configuration
+
+### 6.1 Introduction
+spring boot 2 avoids the orders of configuration for security
+once add the spring-boot-security dependency, by default we will access the login page (everything else is locked down by this page), but we can use the security password in generated console to log in
+
+### 6.2 Configuration
+http
+.authorizeRequests()
+.antMatchers("/").permitAll() //everyone has access to home
+.antMatchers("/link/submit").hasRole("ADMIN"); // only ADMIN has access to submit page
+.and()
+.formLogin(); //enable log in to /submit through a login page, still needs the role
+
+in application.properties, spring.security.user.roles=ADMIN
+Note: if change the access and it can't take effect on the browser, clear the coookies in 开发者工具/Cookies
+
+### 6.3 Users & Roles
+authentication
+create a User class in domain/, limit the size and uniqueness of username and password
+
+authorization: Role
+
+### 6.4 User Details Service
+override the configure method from our WebSecurityConfigurerAdapter in security/SecurityConfiguration
+then actually create the implementation in security/UserDetailsServiceImpl
+
+### 6.5 Add Users & Roles to Database
+password encryptor - use Bcrypt by Spring
+Repository stores the encrypted password, but we can use the actual password to login
+
+### 6.6 Auditing Configuration
+(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()) return the current user
+Note: if we put some existing rows to the repo, remember they don't have login user, so it can't be got by auditing, the resolution is to return a default email if there is no login user
+
+### 6.7 Actuator Security
+http
+.requestMatchers(EndpointRequest.to("info")).permitAll() // easy way to get to that endpoint
+.requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN")
+.antMatchers("/actuator/").hasRole("ACTUATOR")
+
+management.endpoint.health.show-details=when_authorized
+so in /actuator, the info endpoint is open to everyone, but other endpoints need authorization to access
+
+### H2-console security
+let anyone to access /h2-console/**
