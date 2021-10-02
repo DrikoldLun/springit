@@ -9,6 +9,7 @@ import javax.persistence.Id;
 @Entity
 @RequiredArgsConstructor
 @Getter @Setter
+@ToString
 //@NoArgsConstructor
 public class Vote {
 
