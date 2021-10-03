@@ -281,3 +281,34 @@ http.rememberMe()
 ### 7.6 Thymeleaf Spring Security Dialect
 the Spring Security integration module works as a replacement of the Spring security taglib
 The sec:authorize attribute renders its content when the attribute expression is evaluated to true
+use dialect to seperate the content for login and logout state
+sign in -> submit, account, sign-out
+sign out -> sign-in, register
+
+The sec:authorize attribute renders its content when the attribute expression is evaluated to true:
+
+<div sec:authorize="isAuthenticated()">
+  This content is only shown to authenticated users.
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+  This content is only shown to administrators.
+</div>
+<div sec:authorize="hasRole('ROLE_USER')">
+  This content is only shown to users.
+</div>
+The sec:authentication attribute is used to print logged user name and roles:
+
+Logged user: <span sec:authentication="name">Bob</span>
+Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+
+### 7.7 Who submitted the link?
+set up a connect between the user and link class
+update 2 places:
+(1) list.html
+(2) view.html
+class="author" th:text="${link.createdBy}">Lunz
+
+### 7.8 Account and Registration
+/profile -> account
+/register -> register
+getmapping + load templates
