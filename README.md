@@ -312,3 +312,46 @@ class="author" th:text="${link.createdBy}">Lunz
 /profile -> account
 /register -> register
 getmapping + load templates
+
+## 8. Voting
+
+### 8.1 Up Vote & Down Vote Intro
+score = upvotes - downvotes
+
+### 8.2 Vote Entity & Repository
+
+short direction in Vote; +1/-1
+
+@ManytoOne
+List<Vote> votes;
+int voteCount in Link;
+each time update the voteCount in our db
+
+### 8.3 Voting Controller
+@GetMapping("/vote/link/{linkID}/direction/{direction}/votecount/{voteCount}")
+get the link by ID through linkRepository
+create a new Vote object with direction defined and save it to voteRepository
+update the linkCount in object link and save it to linkRepository
+
+### 8.4 Calling our Vote API
+call the vote controller method through clicking an area
+add a script in templates/link/list.html:
+select all upvote and downvote classes, apply event listener ('click')
+get id for link
+get direction from the up/down vote class
+get voteCount from link object through linkid
+url = combination of linkid, direction, voteCountvalue
+call our votecontroller API through fetch(url)
+print the voteCountValue to the screen
+
+### 8.5 security
+not login but click up/down vote - cause login through "anonymous", add that condition to AuditorAwareImpl
+to do:
+(1) user interface side, somebody can't vote if they don't log in
+Thymeleaf Spring Security Dialect
+<script sec:authorize="hasRole('USER')">
+as long as a user is authenticated, the script would be executed
+then if not login and click the vote, there is no eventlistener
+but this can't protect the url
+
+(2) @Secured({"ROLE_USER"}) before getmapping in votecontroller
