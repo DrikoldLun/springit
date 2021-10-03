@@ -15,6 +15,7 @@ resources/application.properties
 change configuration like auto restart/port
 java/*/config/SpringitProperties.java
 eg. server.port=8085/ spring.devtools.restart.enabled=false
+lsof -i:8080 check which process is occupying 8080 port
 
 configuration processor
         <dependency>
@@ -245,5 +246,69 @@ http
 management.endpoint.health.show-details=when_authorized
 so in /actuator, the info endpoint is open to everyone, but other endpoints need authorization to access
 
-### H2-console security
+### 6.8 H2-console security
 let anyone to access /h2-console/**
+
+## 7. Spring Security: The View Layer
+
+### 7.1 introduction
+current login form: default from spring security
+now create a custom login form - spring security 
+
+### 7.2 custom login form
+new controller to map "templates/auth/login.html"
+
+### 7.3 Username & Password Form Parameters
+http.usernameParameter("email");
+templates/auth/login.html
+
+### 7.4 Logout
+after adding CSRF, we can only use HTTP post to log out
+type an URL in the address bar, this is a GetMapping, can't allow us to log out
+make a change in the main layout to use a post instead of a get
+http.logout();
+
+### 7.5 Remember Me
+send a cookie to the browser for automatic login
+2 implementations
+(1) hashing to preserve the security of cookie-based tokens (our method)
+(2) use database or other persistent storage to store generated tokens
+2 cookies
+(1)JsessionID
+(2)rememberme
+http.rememberMe()
+
+### 7.6 Thymeleaf Spring Security Dialect
+the Spring Security integration module works as a replacement of the Spring security taglib
+The sec:authorize attribute renders its content when the attribute expression is evaluated to true
+use dialect to seperate the content for login and logout state
+sign in -> submit, account, sign-out
+sign out -> sign-in, register
+
+The sec:authorize attribute renders its content when the attribute expression is evaluated to true:
+
+<div sec:authorize="isAuthenticated()">
+  This content is only shown to authenticated users.
+</div>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+  This content is only shown to administrators.
+</div>
+<div sec:authorize="hasRole('ROLE_USER')">
+  This content is only shown to users.
+</div>
+The sec:authentication attribute is used to print logged user name and roles:
+
+Logged user: <span sec:authentication="name">Bob</span>
+Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+
+### 7.7 Who submitted the link?
+set up a connect between the user and link class
+update 2 places:
+(1) list.html
+(2) view.html
+class="author" th:text="${link.createdBy}">Lunz
+
+### 7.8 Account and Registration
+/profile -> account
+/register -> register
+getmapping + load templates
