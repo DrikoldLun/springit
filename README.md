@@ -349,9 +349,23 @@ not login but click up/down vote - cause login through "anonymous", add that con
 to do:
 (1) user interface side, somebody can't vote if they don't log in
 Thymeleaf Spring Security Dialect
-<script sec:authorize="hasRole('USER')">
+// <script sec:authorize="hasRole('USER')">
 as long as a user is authenticated, the script would be executed
 then if not login and click the vote, there is no eventlistener
 but this can't protect the url
 
 (2) @Secured({"ROLE_USER"}) before getmapping in votecontroller
+
+## 9. Comments
+
+### 9.1 Database Loader: Add new comments
+add comments to db in commandline runner (Dbloader)
+
+### 9.2 List Comments
+add getPrettytime in Comment domain
+loop to display each comment in templates/link/view.html
+
+### 9.3 Add New Comment
+the user need the USER_ROLE to see the add comment option
+like submitting new link, need to @PostMapping("/link/comments") to get the binding result from view.html into our repo in linkController
+
