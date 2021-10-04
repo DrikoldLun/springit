@@ -3,7 +3,8 @@ package com.lunz.springit.controller;
 import com.lunz.springit.domain.Comment;
 import com.lunz.springit.domain.Link;
 import com.lunz.springit.repository.CommentRepository;
-import com.lunz.springit.repository.LinkRepository;
+import com.lunz.springit.service.CommentService;
+import com.lunz.springit.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
@@ -14,30 +15,29 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class LinkController {
 
     private static final Logger logger = LoggerFactory.getLogger(LinkController.class);
-    private LinkRepository linkRepository;
-    private CommentRepository commentRepository;
+    private LinkService linkService;
+    private CommentService commentService;
 
-    public LinkController(LinkRepository linkRepository, CommentRepository commentRepository) {
-        this.linkRepository = linkRepository;
-        this.commentRepository = commentRepository;
+    public LinkController(LinkService linkService, CommentService commentService) {
+        this.linkService = linkService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/")
     public String list(Model model) {
-        model.addAttribute("links",linkRepository.findAll());
+        model.addAttribute("links",linkService.findAll());
         return "link/list";
     }
 
     @GetMapping("/link/{id}")
     public String read(@PathVariable Long id, Model model) {
-        Optional<Link> link = linkRepository.findById(id);
+        Optional<Link> link = linkService.findById(id);
         if (link.isPresent()) {
             Link currentLink = link.get();
             Comment comment = new Comment();
@@ -66,7 +66,7 @@ public class LinkController {
             return "link/submit";
         } else {
             //save our link
-            linkRepository.save(link);
+            linkService.save(link);
             logger.info("New link was saved successfully");
             redirectAttributes
                     .addAttribute("id",link.getId())
@@ -81,39 +81,10 @@ public class LinkController {
         if (bindingResult.hasErrors()){
             logger.info("There was a problem adding a new comment.");
         } else {
-            commentRepository.save(comment);
+            commentService.save(comment);
             logger.info("New comment was saved successfully.");
         }
         return "redirect:/link/" + comment.getLink().getId();
     }
 
-    /*
-    // list
-    @GetMapping("/")
-    public List<Link> list() {
-        return linkRepository.findAll();
-    }
-
-    // CRUD
-    @PostMapping("/create")
-    public Link create(@ModelAttribute Link link) {
-        return linkRepository.save(link);
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Link> read(@PathVariable Long id) {
-        return linkRepository.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Link update(@PathVariable Long id, @ModelAttribute Link link) {
-        // get the id
-        return linkRepository.save(link);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        linkRepository.deleteById(id);
-    }
-    */
 }

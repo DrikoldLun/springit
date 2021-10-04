@@ -134,7 +134,7 @@ e.g. Link findByTitle(String title) in LinkRepository
 
 ## 4. Spring MVC: Controller
 ### 4.1 what's is controller
-handles HTTP request and mapping
+handles HTTP request and mapping, move the user to the correct view, or return the correct response in an API call 
 the controller package should be under the main folder
 use @Controller for match template html file in resources/templates
 use @RestController without a template
@@ -369,3 +369,21 @@ loop to display each comment in templates/link/view.html
 the user need the USER_ROLE to see the add comment option
 like submitting new link, need to @PostMapping("/link/comments") to get the binding result from view.html into our repo in linkController
 
+## 10. Spring MVC: The Service Layer
+
+### 10.1 Service Layer Introduction
+Business Logic shouldn't be in the concise controller, instead it should included in the service layer
+Service class for registration process in the next section
+
+### 10.2 User Service
+registration functionality: new user, activation email
+not call repo directly in the controller, instead should go to the service
+
+service class includes a lot of method in repo
+@Service
+
+### 10.3 Link Controller Refactoring
+integrate all repo method needed into service class, service class can also have other fucntionality, we just want to put all those business logic in one class
+
+### 10.4 @Transactional
+like try catch, if error then roll back, can be applied to either a class or a method
