@@ -387,3 +387,71 @@ integrate all repo method needed into service class, service class can also have
 
 ### 10.4 @Transactional
 like try catch, if error then roll back, can be applied to either a class or a method
+
+## 11. Registration
+
+### 11.1 Introduction
+user refactory - user info, tie user to a link, registration form to refresh the user repo, spring boot email integration (send email for activation or welcome)， activation process
+
+### 11.2 User refactoring
+name, alias, databaseloader adaptation
+when create a link, link it to a user
+when create a comment, link it to a user
+
+### 11.3 Registration Form
+authcontroller
+model.addAttribute("user",new User())
+register.html link the user object and fill different fields
+To do:
+confirm password (transient object)
+click the "Register" button, if some fields are wrong (like empty), display validation errors, if everything is OK, go into the registration process
+
+### 11.4 User Registration
+write a controller that will register our new user
+registerNewUser model.addAttribute("user",user), so when the user inputs not the entire fields, this object wouldn't be recreated
+import org.springframework.validation.BindingResult;
+get the validation error from bindingresult
+these error comes from annotation message like @NonNull(message="")
+import org.springframework.ui.Model;
+add the error to the model attribute
+
+register
+use register method from userService in authController
+write register method in userService
+
+To do:
+figure out why user.enabled is essential to user login
+
+### 11.5 Pswd & Pswd confirmation
+create our own pswd validator
+confirm password (transient object)
+domain/validator
+@PasswordsMatch in User domain object
+when save the user there is still this validation so set the confirm pswd as the encrypted pswd again
+
+### 11.6 Registration process outline
+create the activation code (maybe with expire date)
+send email to user with activation code 
+user click the activation link -> user.enabled = true
+
+### 11.7 Local Email Server Setup
+local email server: MailDev, built on Node.js
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+MailService
+
+### 11.8 Email templates
+normal senario: pass data from controller to templates
+in this case: mailService pass a User instance into the templates
+templates/email/activation[welcome].html
+
+set activation code in UserService
+user.setActivationCode(UUID.randomUUID().toString());
+
+### 11.9 Activation Process
+getmapping activate in authController, during this process set user.enabled = true and send welcome message
+welcome page template: auth/activated.html
+
+

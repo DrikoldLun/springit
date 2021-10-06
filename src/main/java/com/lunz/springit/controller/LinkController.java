@@ -2,7 +2,6 @@ package com.lunz.springit.controller;
 
 import com.lunz.springit.domain.Comment;
 import com.lunz.springit.domain.Link;
-import com.lunz.springit.repository.CommentRepository;
 import com.lunz.springit.service.CommentService;
 import com.lunz.springit.service.LinkService;
 import org.slf4j.Logger;
