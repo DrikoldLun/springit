@@ -453,5 +453,3 @@ user.setActivationCode(UUID.randomUUID().toString());
 ### 11.9 Activation Process
 getmapping activate in authController, during this process set user.enabled = true and send welcome message
 welcome page template: auth/activated.html
-
-
