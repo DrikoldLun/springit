@@ -30,6 +30,9 @@ public class Comment extends Auditable {
     @NonNull
     private Link link;
 
+    @ManyToOne
+    private User user;
+
     public String getPrettyTime() {
         PrettyTime pt = BeanUtil.getBean(PrettyTime.class);
         return pt.format(convertToDateViaInstant(getCreationDate()));
