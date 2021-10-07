@@ -72,4 +72,8 @@ public class UserService {
         return userRepository.findByEmailAndActivationCode(email,activationCode);
     }
 
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }

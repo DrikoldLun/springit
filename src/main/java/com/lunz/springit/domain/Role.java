@@ -11,7 +11,6 @@ import java.util.Collection;
 @Entity
 @RequiredArgsConstructor
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 public class Role {
 

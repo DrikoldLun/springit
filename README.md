@@ -453,3 +453,48 @@ user.setActivationCode(UUID.randomUUID().toString());
 ### 11.9 Activation Process
 getmapping activate in authController, during this process set user.enabled = true and send welcome message
 welcome page template: auth/activated.html
+
+## 12. Production deployment
+
+### 12.1 AWS overview
+Compute:
+Elastic Beanstalk - launch the app
+
+Database:
+RDS
+
+Networking & Content Delivery
+Route53 - add domain name
+
+Security
+IAM
+
+### 12.2 Spring boot Maven plugin
+package into .jar
+./mvnw clean package
+upload it to Elastic Beanstalk
+
+### 12.3 Elastic Beanstalk
+Production database
+RDS
+edit inbound rools everywhere(Ipv4)
+
+### 12.4 Profiles
+3 versions of application.properties
+original(not including db setting),dev,prod
+in loc env
+search for "edit configuration", add profile version to the "active profile" like dev,aws,prod
+
+in aws env
+enter Elastic Beanstalk/env/conifg/software/environment
+SPRING_PROFILES_ACTIVE = prod
+SPRING_DATASOURCE_USERNAME = lunz
+SPRING_DATASOURCE_PASSWORD = Danshengou4wo
+
+### 12.5 Package & Redeploy
+simple email service (SES) -> SMTP settings
+Problems:
+SES not usable ? gmail can use but need to set lts
+Amazon RDS db usable not viewable (not a problem)
+submit page error - when user submit, the link doesn't add this user object to its domain
+

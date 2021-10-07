@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Entity
 @RequiredArgsConstructor
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 @PasswordsMatch
 public class User implements UserDetails {

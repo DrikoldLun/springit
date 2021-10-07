@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 @Entity
 @RequiredArgsConstructor
 @Getter @Setter
-@ToString
 @NoArgsConstructor
 public class Vote extends Auditable {
 
