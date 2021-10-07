@@ -39,8 +39,9 @@ public class DatabaseLoader implements CommandLineRunner {
 
         // add users and roles
         addUsersAndRoles();
-
+        //
         Map<String,String> links = new HashMap<>();
+        /*
         links.put("Securing Spring Boot APIs and SPAs with OAuth 2.0","https://auth0.com/blog/securing-spring-boot-apis-and-spas-with-oauth2/?utm_source=reddit&utm_medium=sc&utm_campaign=springboot_spa_securing");
         links.put("Easy way to detect Device in Java Web Application using Spring Mobile - Source code to download from GitHub","https://www.opencodez.com/java/device-detection-using-spring-mobile.htm");
         links.put("Tutorial series about building microservices with SpringBoot (with Netflix OSS)","https://medium.com/@marcus.eisele/implementing-a-microservice-architecture-with-spring-boot-intro-cdb6ad16806c");
@@ -52,10 +53,14 @@ public class DatabaseLoader implements CommandLineRunner {
         links.put("Simplest way to Upload and Download Files in Java with Spring Boot - Code to download from Github","https://www.opencodez.com/uncategorized/file-upload-and-download-in-java-spring-boot.htm");
         links.put("Add Social Login to Your Spring Boot 2.0 app","https://developer.okta.com/blog/2018/07/24/social-spring-boot");
         links.put("File download example using Spring REST Controller","https://www.jeejava.com/file-download-example-using-spring-rest-controller/");
+        */
+
+        links.put("Building Microservices with Spring Boot Fat (Uber) Jar","https://jelastic.com/blog/building-microservices-with-spring-boot-fat-uber-jar/");
+        links.put("Spring Cloud GCP 1.0 Released","https://cloud.google.com/blog/products/gcp/calling-java-developers-spring-cloud-gcp-1-0-is-now-generally-available");
 
         links.forEach((k,v) -> {
-            User u1 = users.get("user@gmail.com");
-            User u2 = users.get("super@gmail.com");
+            User u1 = users.get("user@rc.com");
+            User u2 = users.get("admin@rc.com");
             Link link = new Link(k,v);
             // link the link to a user
             if(k.startsWith("Build")) {
@@ -67,13 +72,13 @@ public class DatabaseLoader implements CommandLineRunner {
             linkRepository.save(link);
 
             // we will do something with comments later
-            Comment spring = new Comment("Thank you for this link related to Spring Boot. I love it, great post!", link);
-            spring.setUser(u1);
-            Comment security = new Comment("I love that you're talking about Spring Security", link);
-            security.setUser(u2);
-            Comment pwa = new Comment("What is this Progressive Web App thing all about? PWAs sound really cool.", link);
-            pwa.setUser(u2);
-            Comment comments[] = {spring, security, pwa};
+            Comment comment1 = new Comment("This is a test comment from user", link);
+            comment1.setUser(u1);
+            Comment comment2 = new Comment("This is test comment from admin", link);
+            comment2.setUser(u2);
+            // Comment pwa = new Comment("What is this Progressive Web App thing all about? PWAs sound really cool.", link);
+            // pwa.setUser(u2);
+            Comment comments[] = {comment1,comment2};
             for (Comment comment : comments) {
                 commentRepository.save(comment);
                 link.addComment(comment);
@@ -86,30 +91,23 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private void addUsersAndRoles() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String secret = "{bcrypt}" + encoder.encode("password");
+        String secret = "{bcrypt}" + encoder.encode("Danshengou4wo");
 
         Role userRole = new Role("ROLE_USER");
         roleRepository.save(userRole);
         Role adminRole = new Role("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
-        User user = new User("user@gmail.com",secret,true,"Joe","User","joedirt");
+        User user = new User("user@rc.com",secret,true,"Lun","Zhang","user_test");
         user.addRole(userRole);
         user.setConfirmPassword(secret);
         userRepository.save(user);
-        users.put("user@gmail.com",user);
+        users.put("user@rc.com",user);
 
-        User admin = new User("admin@gmail.com",secret,true,"Joe","Admin","masteradmin");
-        admin.setAlias("joeadmin");
+        User admin = new User("admin@rc.com",secret,true,"Lun","Zhang","admin");
         admin.addRole(adminRole);
         admin.setConfirmPassword(secret);
         userRepository.save(admin);
-        users.put("admin@gmail.com",admin);
-
-        User master = new User("super@gmail.com",secret,true,"Super","User","superduper");
-        master.addRoles(new HashSet<>(Arrays.asList(userRole,adminRole)));
-        master.setConfirmPassword(secret);
-        userRepository.save(master);
-        users.put("super@gmail.com",master);
+        users.put("admin@rc.com",admin);
     }
 }

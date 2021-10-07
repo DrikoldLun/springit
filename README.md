@@ -477,7 +477,7 @@ upload it to Elastic Beanstalk
 ### 12.3 Elastic Beanstalk
 Production database
 RDS
-edit inbound rools everywhere(Ipv4)
+edit inbound rules everywhere(Ipv4)
 
 ### 12.4 Profiles
 3 versions of application.properties
@@ -496,5 +496,12 @@ simple email service (SES) -> SMTP settings
 Problems:
 SES not usable ? gmail can use but need to set lts
 Amazon RDS db usable not viewable (not a problem)
-submit page error - when user submit, the link doesn't add this user object to its domain
+submit page error - when user submit, the link doesn't add this user object to its domain, solved through setuser in linkcontroller postmapping, there is a similar issue for commenting as well
+
+todo:
+1.upvote/downvote? solved by copy the code from list.html to view.html
+2.email test.
+
+### 12.6 setup custom domain name
+route53
 

@@ -88,9 +88,11 @@ public class LinkController {
     @Secured({"ROLE_USER"})
     @PostMapping("/link/comments")
     public String addComment(@Valid Comment comment, BindingResult bindingResult){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (bindingResult.hasErrors()){
             logger.info("There was a problem adding a new comment.");
         } else {
+            comment.setUser(user);
             commentService.save(comment);
             logger.info("New comment was saved successfully.");
         }

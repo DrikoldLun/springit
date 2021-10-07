@@ -45,7 +45,7 @@
             const linkID = this.getAttribute("data-id");
             const voteSum = document.getElementById('votecount-' + linkID);
             const voteSumValue = voteSum.innerHTML;
-            fetch(`http://localhost:8080/vote/link/${linkID}/direction/${direction}/votecount/${voteSumValue}`) // call our API (VoteController)
+            fetch(`/vote/link/${linkID}/direction/${direction}/votecount/${voteSumValue}`) // call our API (VoteController)
                 .then(response => response.json())
                 .then(data => voteSum.innerHTML = data)
                 .catch(err => console.error(err));
